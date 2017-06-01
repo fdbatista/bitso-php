@@ -1,19 +1,17 @@
 <?php
 
-class BitsoAPIException extends \ErrorException {};
-
+namespace API;
 
 class BitsoAPI
 {
 	
 	protected $key;
 	protected $secret;
-	protected $url_v2;
 	protected $url;
 	protected $curl;
 	
 
-    function __construct($key, $secret, $url="https://dev.bitso.com/api/v3", $url_v2="https://dev.bitso.com/api/v2"){
+    function __construct($key, $secret, $url="https://dev.bitso.com/api/v3"){
         $this->key = $key;
         $this->secret = $secret;
         $this->url_v2 = $url_v2;
@@ -38,10 +36,8 @@ class BitsoAPI
   		  if($result===false)
             throw new BitsoAPIException('CURL error: ' . curl_error($this->curl));
 
-        $result = json_decode($result, true);
-
         curl_close($ch);
-		return $result;
+		return json_decode($result);
     }
 
     function ticker($params){
@@ -56,10 +52,8 @@ class BitsoAPI
   		  if($result===false)
             throw new BitsoAPIException('CURL error: ' . curl_error($this->curl));
 
-        $result = json_decode($result, true);
-
         curl_close($ch);
-		return $result;
+		return json_decode($result);
 
     }
 
@@ -75,10 +69,8 @@ class BitsoAPI
   		if($result===false)
         	throw new BitsoAPIException('CURL error: ' . curl_error($this->curl));
 
-        $result = json_decode($result, true);
-
         curl_close($ch);
-		return $result;
+		return json_decode($result);
 
     }
 
@@ -91,10 +83,8 @@ class BitsoAPI
     	
     	$result = curl_exec($ch);
 
-        $result = json_decode($result, true);
-
         curl_close($ch);
-		return $result;
+		return json_decode($result);
     }
 
 
@@ -102,13 +92,12 @@ class BitsoAPI
 ###### PRIVATE QUERIES #######
 ######				   #######
 
-
     
     function account_status(){
     	#NO PARAMETERS
     	$path = $this->url . "/account_status/";
     	$RequestPath = "/api/v3/account_status/";
-    	$nonce = round(microtime(true));
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
 
@@ -132,14 +121,14 @@ class BitsoAPI
 		$result = curl_exec($ch);
 
 		curl_close($ch);
-		return $result;
+		return json_decode($result);
     }
 
     function balances(){
     	#NO PARAMETERS
 		$path = $this->url . "/balance/";
     	$RequestPath = "/api/v3/balance/";
-    	$nonce = round(microtime(true));
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
 
@@ -163,14 +152,14 @@ class BitsoAPI
 
 		$result = curl_exec($ch);
 
-		return $result;
+		return json_decode($result);
     }
 
     function fees(){
     	#NO PARAMETERS
 		$path = $this->url . "/fees/";
     	$RequestPath = "/api/v3/fees/";
-    	$nonce = round(microtime(true));
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
 
@@ -196,7 +185,7 @@ class BitsoAPI
 		$result = curl_exec($ch);
 
 		#print $result;
-		return $result;
+		return json_decode($result);
     }
 
     function ledger($params){
@@ -210,10 +199,11 @@ class BitsoAPI
     	$parameters = http_build_query($params,'','&');
 		$path = $this->url . "/ledger/?".$parameters;
     	$RequestPath = "/api/v3/ledger/?".$parameters;
-    	$nonce = (int)round(microtime(true));
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	#$JSONPayload = json_encode($params);
     	$JSONPayload = ''; 
+    	
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -236,21 +226,22 @@ class BitsoAPI
 
 		#print $result;
 		return json_decode($result);
-    	
     }
 
-    function withdrawals(){
+    function withdrawals($params, $ids=[]){
     	#ONLY TAKES QUERY PARAMETERS, Has these options
     	#GET https://api.bitso.com/v3/withdrawals/
 		#GET https://api.bitso.com/v3/withdrawals/wid/
 		#GET https://api.bitso.com/v3/withdrawals/wid-wid-wid/
-
+		$id_nums = implode('', $ids);
     	$parameters = http_build_query($params,'','&');
-		$path = $this->url . "/withdrawals/?".$parameters;
-    	$RequestPath = "/api/v3/withdrawals/?".$parameters;
-    	$nonce = (int)round(microtime(true));
+		$path = $this->url . "/withdrawals/".$id_nums."/?".$parameters;
+    	$RequestPath = "/api/v3/withdrawals/".$id_nums."/?".$parameters;
+  
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+    	
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -272,21 +263,22 @@ class BitsoAPI
 		$result = curl_exec($ch);
 
 		curl_close($ch);
-		return $result;
+		return json_decode($result);
     }
 
-    function fundings($params){
+    function fundings($params,$ids=[]){
     	#TAKES QUERY PARAMETER AND FID
     	#GET https://api.bitso.com/v3/fundings/
 		#GET https://api.bitso.com/v3/fundings/fid/
 		#GET https://api.bitso.com/v3/fundings/fid-fid-fid/
-
+		$id_nums = implode('', $ids);
     	$parameters = http_build_query($params,'','&');
-    	$path = $this->url . "/fundings/?".$parameters;
-    	$RequestPath = "/api/v3/fundings/?".$parameters;
-    	$nonce = (int)round(microtime(true));
+		$path = $this->url . "/fundings/".$id_nums."/?".$parameters;
+    	$RequestPath = "/api/v3/fundings/".$id_nums."/?".$parameters;
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+    	
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -308,21 +300,23 @@ class BitsoAPI
 		$result = curl_exec($ch);
 
 		curl_close($ch);
-		return $result;
+		return json_decode($result);
     }
 
-    function user_trades($params){
+    function user_trades($params, $ids=[]){
     	#ONLY TAKES QUERY PARAMETER
     	#GET https://api.bitso.com/v3/user_trades/
     	#GET https://api.bitso.com/v3/user_trades/tid/
     	#GET https://api.bitso.com/v3/user_trades/tid-tid-tid/
 
+    	$id_nums = implode('', $ids);
     	$parameters = http_build_query($params,'','&');
-		$path = $this->url . "/user_trades/?".$parameters;
-    	$RequestPath = "/api/v3/user_trades/?".$parameters;
-    	$nonce = (int)round(microtime(true));
+		$path = $this->url . "/user_trades/".$id_nums."/?".$parameters;
+    	$RequestPath = "/api/v3/user_trades/".$id_nums."/?".$parameters;
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+    	
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -344,7 +338,7 @@ class BitsoAPI
 		$result = curl_exec($ch);
 
 		curl_close($ch);
-		return $result;
+		return json_decode($result);
     }
 
     function open_orders($params){
@@ -352,9 +346,10 @@ class BitsoAPI
     	$parameters = http_build_query($params,'','&');
     	$path = $this->url . "/open_orders/?".$parameters;
     	$RequestPath = "/api/v3/open_orders/?".$parameters;
-    	$nonce = (int)round(microtime(true)*1000000);
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+    	
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -376,19 +371,19 @@ class BitsoAPI
 		$result = curl_exec($ch);
 
 		curl_close($ch);
-		return $result;
-
+		return json_decode($result);
     }
 
-    function lookup_order($params){
-		#NO PARAMETERS has options 
+    function lookup_order($ids){
+		#NO QUERY OR BODY PARAMETERS has options 
 		#GET https://api.bitso.com/v3/orders/<oid>/
 		#GET https://api.bitso.com/v3/orders/<oid>-<oid>-<oid>/
 
-    	$parameters = http_build_query($params,'','&');
-    	$path = $this->url . "/orders/";
-    	$RequestPath = "/api/v3/orders/";
-    	$nonce = (int)round(microtime(true)*1000000);
+    	$parameters = implode('', $ids);
+   
+    	$path = $this->url . "/orders/".$parameters;
+    	$RequestPath = "/api/v3/orders/".$parameters;
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
 
@@ -412,17 +407,55 @@ class BitsoAPI
 		$result = curl_exec($ch);
 
 		curl_close($ch);
-		return $result;
+		return json_decode($result);
     }
-    function cancel_order($params){
 
+    function cancel_order($ids){
+    	#NO QUERY OR BODY PARAMETERS, has options
+    	#DELETE https://api.bitso.com/v3/orders/<oid>/
+		#DELETE https://api.bitso.com/v3/orders/<oid>-<oid>-<oid>/
+		#DELETE https://api.bitso.com/v3/orders/all/
+		if ($ids = 'all') {
+			$parameters = 'all';
+		} else {
+		    $parameters = implode('', $params);
+		}
+
+    	$path = $this->url . "/orders/".$parameters;
+    	$RequestPath = "/api/v3/orders/".$parameters;
+    	$nonce = round(microtime(true)*1000);
+    	$HTTPMethod = 'DELETE';
+    	$JSONPayload = '';
+
+    	//create signature
+    	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
+  		$signature = hash_hmac('sha256', $message, $this->secret);
+
+  
+  		//build auth header
+  		$format = 'Bitso %s:%s:%s';
+  		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
+
+  		// Send request
+  		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $path);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		      'Authorization: ' .  $authHeader,
+		      'Content-Type: application/json'));
+		$result = curl_exec($ch);
+
+		curl_close($ch);
+		return json_decode($result);
     }
 
     function place_order($params){
     	#ONLY TAKES BODY PARAMETERS
+
 		$path = $this->url . "/orders/";
     	$RequestPath = "/api/v3/orders/";
-    	$nonce = (int)round(microtime(true));
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'POST';
     	$JSONPayload = json_encode($params);
 
@@ -449,8 +482,37 @@ class BitsoAPI
 		#print $result;
 		return json_decode($result);
     }
-    function funding_destination(){
 
+    function funding_destination($params){
+    	#ONLY TAKES QUERY PARAMETER
+		$parameters = http_build_query($params,'','&');
+    	$path = $this->url . "/funding_destination/?".$parameters;
+    	$RequestPath = "/api/v3/funding_destination/?".$parameters;
+    	$nonce = round(microtime(true)*1000);
+    	$HTTPMethod = 'GET';
+    	$JSONPayload = '';
+
+    	//create signature
+    	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
+  		$signature = hash_hmac('sha256', $message, $this->secret);
+
+  
+  		//build auth header
+  		$format = 'Bitso %s:%s:%s';
+  		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
+
+  		// Send request
+  		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $path);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		      'Authorization: ' .  $authHeader,
+		      'Content-Type: application/json'));
+		$result = curl_exec($ch);
+
+		curl_close($ch);
+		return json_decode($result);
     }
 
     function btc_withdrawal($params){
@@ -458,7 +520,7 @@ class BitsoAPI
 		$path = $this->url . "/bitcoin_withdrawal/";
 
     	$RequestPath = "/api/v3/bitcoin_withdrawal/";
-    	$nonce = (int)round(microtime(true));
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'POST';	
     	$JSONPayload = json_encode($params);
 
@@ -491,7 +553,7 @@ class BitsoAPI
     	$path = $this->url . "/ether_withdrawal/";
 
     	$RequestPath = "/api/v3/ether_withdrawal/";
-    	$nonce = (int)round(microtime(true));
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'POST';
     	$JSONPayload = json_encode($params);
 
@@ -523,7 +585,7 @@ class BitsoAPI
     	#ONLY TAKES BODY PARAMETERS
 		$path = $this->url . "/ripple_withdrawal/";
     	$RequestPath = "/api/v3/ripple_withdrawal/";
-    	$nonce = (int)round(microtime(true));
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'POST';
     	$JSONPayload = json_encode($params);
 
@@ -556,7 +618,7 @@ class BitsoAPI
     	$path = $this->url . "/spei_withdrawal/";
 
     	$RequestPath = "/api/v3/spei_withdrawal/";
-    	$nonce = (int)round(microtime(true));
+    	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'POST';
     	$JSONPayload = json_encode($params);
 
@@ -583,8 +645,6 @@ class BitsoAPI
 		#print $result;
 		return json_decode($result);
     }
-
-   
 
 }
 
