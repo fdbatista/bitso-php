@@ -176,7 +176,7 @@ $user_trades = $bitso->user_trades(array('book'=>'btc_mxn'));
 
 ### Open Orders ###
 
-```python
+```php
 ## Returns a list of the user’s open orders
 ## Parameters
 ## [book] - Specifies which book to use
@@ -188,24 +188,22 @@ $user_trades = $bitso->user_trades(array('book'=>'btc_mxn'));
 ## [sort = 'desc'] - Sorting by datetime
 ##                 - string - 'asc' or
 ##                 - 'desc'
-
 $open_orders = $bitso->open_orders(array('book'=>'btc_mxn'));
 ```
 
 ### Lookup Order ###
 
-```python
+```php
 ## Returns a list of details for 1 or more orders
 ## Parameters
 ## order_ids -  A list of Bitso Order IDs.
 ##          - string
-
 $lookup_order = $bitso->lookup_order(array(oid));
 ```
 
 ### Cancel Order ###
 
-```python
+```php
 ## Cancels an open order
 ## Parameters
 ## order_id -  A Bitso Order ID.
@@ -215,7 +213,7 @@ $cancel_order =  $bitso->cancel_order(array(oid));
 
 ### Place Order ###
 
-```python
+```php
 ## Places a buy limit order.
 ## [book] - Specifies which book to use (btc_mxn, eth_mxn)
 ##                    - str
@@ -242,29 +240,31 @@ $place_order = $bitso->place_order(array('book'  => 'btc_mxn',
 
 ### Funding Destination Address ###
 
-```python
+```php
 ## Gets a Funding destination address to fund your account
 ## fund_currency  - Specifies the currency you want to fund your account with (btc, eth, mxn)
 ##                            - str
-$funding_destination = $bitso->funding_destination(array('fund_currency'=>'eth'));
+$funding_destination = $bitso->funding_destination(
+								array('fund_currency'=>'eth'));
 ```
 
 
 ### Bitcoin Withdrawal ###
 
-```python
+```php
 ## Triggers a bitcoin withdrawal from your account
 ## amount  - The amount of BTC to withdraw from your account
 ##         - string
 ## address - The Bitcoin address to send the amount to
 ##         - string
 
-$btc_withdrawal = $bitso->btc_withdrawal(array('amount'  => '.05','address'  => ''));
+$btc_withdrawal = $bitso->btc_withdrawal(array('amount'  => 
+									'.05','address'  => ''));
 ```
 
 ### Ether Withdrawal ###
 
-```python
+```php
 ## Triggers a bitcoin withdrawal from your account
 ## amount  - The amount of BTC to withdraw from your account
 ##         - string
@@ -280,7 +280,7 @@ $eth_withdrawal = $bitso->eth_withdrawal(array('amount'  => '.05',
 
 ### Ripple Withdrawal ###
 
-```python
+```php
 ## Triggers a ripple withdrawal from your account
 ## currency  - The currency to withdraw
 ##         - string
@@ -289,7 +289,9 @@ $eth_withdrawal = $bitso->eth_withdrawal(array('amount'  => '.05',
 ## address - The ripple address to send the amount to
 ##         - string
 
-$ripple_withdrawal = $bitso->ripple_withdrawal(array('currency'=>'MXN','amount'  => '.05','address'  => ''));
+$ripple_withdrawal = $bitso->ripple_withdrawal(
+								array('currency'=>'MXN','amount'  
+								=> '.05','address'  => ''));
 
 ```
 
@@ -297,7 +299,7 @@ $ripple_withdrawal = $bitso->ripple_withdrawal(array('currency'=>'MXN','amount' 
 
 ### Bank Withdrawal (SPEI) ###
 
-```python
+```php
 ## Triggers a SPEI withdrawal from your account. These withdrawals are
 ##   immediate during banking hours (M-F 9:00AM - 5:00PM Mexico City Time).
 ##
@@ -315,5 +317,8 @@ $ripple_withdrawal = $bitso->ripple_withdrawal(array('currency'=>'MXN','amount' 
 ##         - string
 
 $spei_withdrawal = $bitso->spei_withdrawal(array('amount'  => '105',
-                              'recipient_given_names'  => 'Andre Pierre','recipient_family_names'=>'Gignac', 'clabe'=>'CLABE','notes_ref'=>'NOTES REF','numeric_ref'=>'NUMERIC REF'));
+                              'recipient_given_names'  => 'Andre 
+                              Pierre','recipient_family_names'=>'Gignac', 
+                              'clabe'=>'CLABE','notes_ref'=>'NOTES
+                              REF','numeric_ref'=>'NUMERIC REF'));
 ```
