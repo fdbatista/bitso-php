@@ -245,7 +245,7 @@ $place_order = $bitso->place_order(array('book'  => 'btc_mxn',
 ## fund_currency  - Specifies the currency you want to fund your account with (btc, eth, mxn)
 ##                            - str
 $funding_destination = $bitso->funding_destination(
-								array('fund_currency'=>'eth'));
+array('fund_currency'=>'eth'));
 ```
 
 
@@ -258,8 +258,8 @@ $funding_destination = $bitso->funding_destination(
 ## address - The Bitcoin address to send the amount to
 ##         - string
 
-$btc_withdrawal = $bitso->btc_withdrawal(array('amount'  => 
-									'.05','address'  => ''));
+$btc_withdrawal = $bitso->btc_withdrawal(array('amount'=>
+'.05','address'  => ''));
 ```
 
 ### Ether Withdrawal ###
@@ -272,7 +272,7 @@ $btc_withdrawal = $bitso->btc_withdrawal(array('amount'  =>
 ##         - string
 
 $eth_withdrawal = $bitso->eth_withdrawal(array('amount'  => '.05',
-                              'address'  => ''));
+'address'  => ''));
 
 ```
 
@@ -290,8 +290,7 @@ $eth_withdrawal = $bitso->eth_withdrawal(array('amount'  => '.05',
 ##         - string
 
 $ripple_withdrawal = $bitso->ripple_withdrawal(
-								array('currency'=>'MXN','amount'  
-								=> '.05','address'  => ''));
+array('currency'=>'MXN','amount'=> '.05','address'  => ''));
 
 ```
 
