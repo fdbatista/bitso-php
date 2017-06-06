@@ -230,11 +230,7 @@ $cancel_order =  $bitso->cancel_order(array(oid));
 ## price  - Price per unit of major. For use only with limit orders
 ##        - string
 
-$place_order = $bitso->place_order(array('book'  => 'btc_mxn',
-			                              'side'  => 'buy',
-			                              'major' => '.01',
-			                              'price' => '1000',
-			                              'type'  => 'limit'));
+$place_order = $bitso->place_order(array('book'  => 'btc_mxn', 'side'  => 'buy', 'major' => '.01', 'price' => '1000', type'  => 'limit'));
 ```
 
 
