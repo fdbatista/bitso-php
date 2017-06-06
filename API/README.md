@@ -32,7 +32,7 @@ $books = bitso->available_books();
 ## Parameters
 ## [book] - Specifies which book to use
 ##                  - string
-$ticker = bitso->ticker(["book"=>"btc_mxn"])
+$ticker = bitso->ticker(["book"=>"btc_mxn"]);
  ```
 
 ### Order Book ###
@@ -148,7 +148,7 @@ $withdrawals = $bitso->withdrawals((wids), ["limit"=>"20"]);
 ##                 - string - 'asc' or
 ##                 - 'desc'
 
-$fundings = $bitso->fundings((fids),["limit"=>"20"])
+$fundings = $bitso->fundings((fids),["limit"=>"20"]);
 ```
 
 
@@ -231,10 +231,10 @@ $cancel_order =  $bitso->cancel_order(array(oid));
 ##        - string
 
 $place_order = $bitso->place_order(array('book'  => 'btc_mxn',
-                              'side'  => 'buy',
-                              'major' => '.01',
-                              'price' => '1000',
-                              'type'  => 'limit'))
+			                              'side'  => 'buy',
+			                              'major' => '.01',
+			                              'price' => '1000',
+			                              'type'  => 'limit'));
 ```
 
 
@@ -244,8 +244,7 @@ $place_order = $bitso->place_order(array('book'  => 'btc_mxn',
 ## Gets a Funding destination address to fund your account
 ## fund_currency  - Specifies the currency you want to fund your account with (btc, eth, mxn)
 ##                            - str
-$funding_destination = $bitso->funding_destination(
-array('fund_currency'=>'eth'));
+$funding_destination = $bitso->funding_destination(array('fund_currency'=>'eth'));
 ```
 
 
@@ -258,8 +257,7 @@ array('fund_currency'=>'eth'));
 ## address - The Bitcoin address to send the amount to
 ##         - string
 
-$btc_withdrawal = $bitso->btc_withdrawal(array('amount'=>
-'.05','address'  => ''));
+$btc_withdrawal = $bitso->btc_withdrawal(array('amount'=>'.05','address'  => ''));
 ```
 
 ### Ether Withdrawal ###
@@ -271,8 +269,7 @@ $btc_withdrawal = $bitso->btc_withdrawal(array('amount'=>
 ## address - The Bitcoin address to send the amount to
 ##         - string
 
-$eth_withdrawal = $bitso->eth_withdrawal(array('amount'  => '.05',
-'address'  => ''));
+$eth_withdrawal = $bitso->eth_withdrawal(array('amount'  => '.05','address'  => ''));
 
 ```
 
@@ -289,8 +286,7 @@ $eth_withdrawal = $bitso->eth_withdrawal(array('amount'  => '.05',
 ## address - The ripple address to send the amount to
 ##         - string
 
-$ripple_withdrawal = $bitso->ripple_withdrawal(
-array('currency'=>'MXN','amount'=> '.05','address'  => ''));
+$ripple_withdrawal = $bitso->ripple_withdrawal(array('currency'=>'MXN','amount'=> '.05','address'  => ''));
 
 ```
 
@@ -315,9 +311,5 @@ array('currency'=>'MXN','amount'=> '.05','address'  => ''));
 ## numeric_ref - The numeric reference for this SPEI
 ##         - string
 
-$spei_withdrawal = $bitso->spei_withdrawal(array('amount'  => '105',
-                              'recipient_given_names'  => 'Andre 
-                              Pierre','recipient_family_names'=>'Gignac', 
-                              'clabe'=>'CLABE','notes_ref'=>'NOTES
-                              REF','numeric_ref'=>'NUMERIC REF'));
+$spei_withdrawal = $bitso->spei_withdrawal(array('amount'  => '105','recipient_given_names'  => 'Andre Pierre','recipient_family_names'=>'Gignac', 'clabe'=>'CLABE','notes_ref'=>'NOTES_REF','numeric_ref'=>'NUMERIC REF'));
 ```

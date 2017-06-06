@@ -7,10 +7,9 @@ class bitso
 	protected $key;
 	protected $secret;
 	protected $url;
-	protected $curl;
 	
 
-    function __construct($key, $secret, $url="https://dev.bitso.com/api/v3"){
+    public function __construct($key, $secret, $url="https://dev.bitso.com/api/v3"){
         $this->key = $key;
         $this->secret = $secret;
         $this->url = $url;
@@ -18,33 +17,64 @@ class bitso
     }
 
 
-######				  #######
+    public function url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader=''){
+      $ch = curl_init();
+      if ($type == 'PUBLIC') {
+        curl_setopt($ch, CURLOPT_URL, $path);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+      } else if ($type == 'PRIVATE') {
+        if ($HTTPMethod == 'GET' or $HTTPMethod == 'DELETE') {
+                    curl_setopt($ch, CURLOPT_URL, $path);
+          curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
+          curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+              'Authorization: ' .  $authHeader,
+              'Content-Type: application/json'));
+          
+        } else if ($HTTPMethod == 'POST') {
+          curl_setopt($ch, CURLOPT_URL, $path);
+          curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
+          curl_setopt($ch, CURLOPT_POSTFIELDS, $JSONPayload);
+          curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Authorization: ' .  $authHeader,
+                'Content-Type: application/json'));
+        } else {
+          echo "Incorrect HTTP method";
+        }
+
+      }
+
+      $result = curl_exec($ch);
+      curl_close($ch);
+      return $result;
+
+    }
+
+######          #######
 ###### PUBLIC QUERIES #######
-######				  #######
+######          #######
 
 
     function available_books(){
     	$path = $this->url . "/available_books/";
-    	$ch = curl_init();
-    	curl_setopt($ch, CURLOPT_URL, $path);
-    	curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); // Do not send to screen
-
-    	$result = curl_exec($ch);
+      $type = 'PUBLIC';
+      $HTTPMethod = 'GET';
+      $JSONPayload = '';
+    	$result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload);
 
   		 
-      curl_close($ch);
 		  return json_decode($result);
     }
 
     function ticker($params){
     	$parameters = http_build_query($params,'','&');
     	$path = $this->url . "/ticker/?".$parameters;
-    	$ch = curl_init();
-    	curl_setopt($ch, CURLOPT_URL, $path);
-    	curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); // Do not send to screen
-    	
-    	$result = curl_exec($ch);
-      curl_close($ch);
+      $type = 'PUBLIC';
+      $HTTPMethod = 'GET';
+      $JSONPayload = '';
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload);
+      
 		  return json_decode($result);
 
     }
@@ -52,12 +82,11 @@ class bitso
     function order_book($params){
     	$parameters = http_build_query($params,'','&');
     	$path = $this->url . "/order_book/?".$parameters;
-    	$ch = curl_init();
-    	curl_setopt($ch, CURLOPT_URL, $path);
-    	curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); // Do not send to screen
+      $type = 'PUBLIC';
+      $HTTPMethod = 'GET';
+      $JSONPayload = '';
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload);
 
-    	$result = curl_exec($ch);
-      curl_close($ch);
 		  return json_decode($result);
 
     }
@@ -65,12 +94,11 @@ class bitso
     function trades($params){
     	$parameters = http_build_query($params,'','&');
     	$path = $this->url . "/trades/?".$parameters;
-		  $ch = curl_init();
-    	curl_setopt($ch, CURLOPT_URL, $path);
-    	curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); // Do not send to screen
-    	
-      $result = curl_exec($ch);
-      curl_close($ch);
+      $type = 'PUBLIC';
+      $HTTPMethod = 'GET';
+      $JSONPayload = '';
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload);
+  
 		  return json_decode($result);
     }
 
@@ -87,6 +115,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+      $type = 'PRIVATE';
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -98,16 +127,9 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-  		$result = curl_exec($ch);
 
-  		curl_close($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
+  	
   		return json_decode($result);
     }
 
@@ -118,6 +140,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+      $type = 'PRIVATE';
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -129,15 +152,7 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
     		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-
-  		$result = curl_exec($ch);
+  		$result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
   		return json_decode($result);
     }
@@ -149,6 +164,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+      $type = 'PRIVATE';
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -161,15 +177,7 @@ class bitso
 
 
     		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-
-  		$result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
   		#print $result;
   		return json_decode($result);
@@ -188,8 +196,8 @@ class bitso
     	$RequestPath = "/api/v3/ledger/?".$parameters;
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
-    	#$JSONPayload = json_encode($params);
-    	$JSONPayload = ''; 
+    	$JSONPayload = '';
+      $type = 'PRIVATE'; 
     	
 
     	//create signature
@@ -201,15 +209,7 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-
-  		$result = curl_exec($ch);
+  	  $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
   		#print $result;
   		return json_decode($result);
@@ -228,6 +228,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+      $type = 'PRIVATE';
     	
 
     	//create signature
@@ -240,16 +241,8 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-		  curl_setopt($ch, CURLOPT_URL, $path);
-		  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-		  curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		      'Authorization: ' .  $authHeader,
-		      'Content-Type: application/json'));
-		  $result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
-		  curl_close($ch);
 		  return json_decode($result);
     }
 
@@ -265,6 +258,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+      $type = 'PRIVATE';
     	
 
     	//create signature
@@ -277,16 +271,8 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-		  curl_setopt($ch, CURLOPT_URL, $path);
-		  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-		  curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		      'Authorization: ' .  $authHeader,
-		      'Content-Type: application/json'));
-		  $result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
-		  curl_close($ch);
 		  return json_decode($result);
     }
 
@@ -303,6 +289,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+      $type = 'PRIVATE';
     	
 
     	//create signature
@@ -315,16 +302,8 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-  		$result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
-  		curl_close($ch);
   		return json_decode($result);
     }
 
@@ -336,6 +315,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+      $type = 'PRIVATE';
     	
 
     	//create signature
@@ -348,16 +328,8 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-		  curl_setopt($ch, CURLOPT_URL, $path);
-		  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-		  curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		      'Authorization: ' .  $authHeader,
-		      'Content-Type: application/json'));
-		  $result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
-		  curl_close($ch);
 		  return json_decode($result);
     }
 
@@ -373,6 +345,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+      $type = 'PRIVATE';
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -384,16 +357,8 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-  		$result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
-		  curl_close($ch);
 		  return json_decode($result);
     }
 
@@ -413,6 +378,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'DELETE';
     	$JSONPayload = '';
+      $type = 'PRIVATE';
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -424,16 +390,8 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-  		$result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
-  		curl_close($ch);
   		return json_decode($result);
     }
 
@@ -445,6 +403,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'POST';
     	$JSONPayload = json_encode($params);
+      $type = 'PRIVATE';
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -455,16 +414,7 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch, CURLOPT_POSTFIELDS, $JSONPayload);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-
-  		$result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
   		#print $result;
   		return json_decode($result);
@@ -478,6 +428,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'GET';
     	$JSONPayload = '';
+      $type = 'PRIVATE';
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -489,16 +440,8 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-  		$result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
-  		curl_close($ch);
   		return json_decode($result);
     }
 
@@ -510,6 +453,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'POST';	
     	$JSONPayload = json_encode($params);
+      $type = 'PRIVATE';
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -520,16 +464,7 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch, CURLOPT_POSTFIELDS, $JSONPayload);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-
-  		$result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
   		return json_decode($result);
     }
@@ -542,6 +477,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'POST';
     	$JSONPayload = json_encode($params);
+      $type = 'PRIVATE';
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -552,16 +488,7 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch, CURLOPT_POSTFIELDS, $JSONPayload);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-
-  		$result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
   		return json_decode($result);
 
@@ -573,6 +500,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'POST';
     	$JSONPayload = json_encode($params);
+      $type = 'PRIVATE';
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -583,16 +511,7 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch, CURLOPT_POSTFIELDS, $JSONPayload);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-
-  		$result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
   		return json_decode($result);
 
@@ -605,6 +524,7 @@ class bitso
     	$nonce = round(microtime(true)*1000);
     	$HTTPMethod = 'POST';
     	$JSONPayload = json_encode($params);
+      $type = 'PRIVATE';
 
     	//create signature
     	$message = $nonce . $HTTPMethod . $RequestPath . $JSONPayload;
@@ -615,16 +535,7 @@ class bitso
   		$authHeader =  sprintf($format, $this->key, $nonce, $signature);
 
   		// Send request
-  		$ch = curl_init();
-  		curl_setopt($ch, CURLOPT_URL, $path);
-  		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTPMethod);
-  		curl_setopt($ch, CURLOPT_POSTFIELDS, $JSONPayload);
-  		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-  		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  		      'Authorization: ' .  $authHeader,
-  		      'Content-Type: application/json'));
-
-  		$result = curl_exec($ch);
+      $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload, $authHeader);
 
   		return json_decode($result);
     }
