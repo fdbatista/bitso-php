@@ -130,7 +130,7 @@ $ledger = $bitso->ledger(["limit"=>"15"]);
 ##                 - string - 'asc' or
 ##                 - 'desc'
 
-$withdrawals = $bitso->withdrawals((wids), ["limit"=>"20"]);
+$withdrawals = $bitso->withdrawals(["limit"=>"20"],(wids));
 ```
 
 ### Fundings ###
@@ -148,7 +148,7 @@ $withdrawals = $bitso->withdrawals((wids), ["limit"=>"20"]);
 ##                 - string - 'asc' or
 ##                 - 'desc'
 
-$fundings = $bitso->fundings((fids),["limit"=>"20"]);
+$fundings = $bitso->fundings(["limit"=>"20"],(fids));
 ```
 
 
@@ -169,7 +169,7 @@ $fundings = $bitso->fundings((fids),["limit"=>"20"]);
 ##                 - string - 'asc' or
 ##                 - 'desc'
 
-$user_trades = $bitso->user_trades(array('book'=>'btc_mxn'));
+$user_trades = $bitso->user_trades(['book'=>'btc_mxn']);
 
 
 ```
@@ -188,7 +188,7 @@ $user_trades = $bitso->user_trades(array('book'=>'btc_mxn'));
 ## [sort = 'desc'] - Sorting by datetime
 ##                 - string - 'asc' or
 ##                 - 'desc'
-$open_orders = $bitso->open_orders(array('book'=>'btc_mxn'));
+$open_orders = $bitso->open_orders(['book'=>'btc_mxn']);
 ```
 
 ### Lookup Order ###
@@ -198,7 +198,7 @@ $open_orders = $bitso->open_orders(array('book'=>'btc_mxn'));
 ## Parameters
 ## order_ids -  A list of Bitso Order IDs.
 ##          - string
-$lookup_order = $bitso->lookup_order(array(oid));
+$lookup_order = $bitso->lookup_order([oids]);
 ```
 
 ### Cancel Order ###
@@ -208,7 +208,7 @@ $lookup_order = $bitso->lookup_order(array(oid));
 ## Parameters
 ## order_id -  A Bitso Order ID.
 ##          - string
-$cancel_order =  $bitso->cancel_order(array(oid));
+$cancel_order =  $bitso->cancel_order([oids]);
 ```
 
 ### Place Order ###
@@ -230,7 +230,7 @@ $cancel_order =  $bitso->cancel_order(array(oid));
 ## price  - Price per unit of major. For use only with limit orders
 ##        - string
 
-$place_order = $bitso->place_order(array('book'  => 'btc_mxn', 'side'  => 'buy', 'major' => '.01', 'price' => '1000', type'  => 'limit'));
+$place_order = $bitso->place_order(['book'  => 'btc_mxn', 'side'  => 'buy', 'major' => '.01', 'price' => '1000', type'  => 'limit']);
 ```
 
 
@@ -240,7 +240,7 @@ $place_order = $bitso->place_order(array('book'  => 'btc_mxn', 'side'  => 'buy',
 ## Gets a Funding destination address to fund your account
 ## fund_currency  - Specifies the currency you want to fund your account with (btc, eth, mxn)
 ##                            - str
-$funding_destination = $bitso->funding_destination(array('fund_currency'=>'eth'));
+$funding_destination = $bitso->funding_destination(['fund_currency'=>'eth']);
 ```
 
 
@@ -253,7 +253,7 @@ $funding_destination = $bitso->funding_destination(array('fund_currency'=>'eth')
 ## address - The Bitcoin address to send the amount to
 ##         - string
 
-$btc_withdrawal = $bitso->btc_withdrawal(array('amount'=>'.05','address'  => ''));
+$btc_withdrawal = $bitso->btc_withdrawal(['amount'=>'.05','address'  => '']);
 ```
 
 ### Ether Withdrawal ###
@@ -265,7 +265,7 @@ $btc_withdrawal = $bitso->btc_withdrawal(array('amount'=>'.05','address'  => '')
 ## address - The Bitcoin address to send the amount to
 ##         - string
 
-$eth_withdrawal = $bitso->eth_withdrawal(array('amount'  => '.05','address'  => ''));
+$eth_withdrawal = $bitso->eth_withdrawal(['amount'  => '.05','address'  => '']);
 
 ```
 
@@ -282,7 +282,7 @@ $eth_withdrawal = $bitso->eth_withdrawal(array('amount'  => '.05','address'  => 
 ## address - The ripple address to send the amount to
 ##         - string
 
-$ripple_withdrawal = $bitso->ripple_withdrawal(array('currency'=>'MXN','amount'=> '.05','address'  => ''));
+$ripple_withdrawal = $bitso->ripple_withdrawal(['currency'=>'MXN','amount'=> '.05','address'  => '']);
 
 ```
 
@@ -307,5 +307,5 @@ $ripple_withdrawal = $bitso->ripple_withdrawal(array('currency'=>'MXN','amount'=
 ## numeric_ref - The numeric reference for this SPEI
 ##         - string
 
-$spei_withdrawal = $bitso->spei_withdrawal(array('amount'  => '105','recipient_given_names'  => 'Andre Pierre','recipient_family_names'=>'Gignac', 'clabe'=>'CLABE','notes_ref'=>'NOTES_REF','numeric_ref'=>'NUMERIC REF'));
+$spei_withdrawal = $bitso->spei_withdrawal(['amount'  => '105','recipient_given_names'  => 'Andre Pierre','recipient_family_names'=>'Gignac', 'clabe'=>'CLABE','notes_ref'=>'NOTES_REF','numeric_ref'=>'NUMERIC REF']);
 ```
