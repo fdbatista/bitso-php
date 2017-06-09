@@ -20,13 +20,19 @@ Parameters must be arrays in the form of:
  ``` php
  ["arg1"=>"value","arg2"=>"value"]
  ``` 
- For some methods such as ledger, fundings, and withdrawals, you must imput parameters like above, but must also input ids in a separate array:
+ For some methods such as ledger, fundings, and withdrawals, you must imput parameters like above, but must also input ids in a separate paramter:
  ```php
- ['id']
- ``` or 
+ ('id')
+ ``` 
+ or 
  ```php
- ['id','id','id']
- ``` .
+ ('id','id','id')
+ ```
+ Moreover, for methods such as lookup order, cancel order, there is no array of parameters, but there must be an array with order ids:
+ ```php
+ ['id','id''id]
+ ```
+ See specific calls for detailed examples.
 
 # Public Calls #
 
