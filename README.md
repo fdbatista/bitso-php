@@ -22,7 +22,12 @@ $bitso = new bitso(API_KEY, API_SECRET);
 
 ```php
 ## Order books available on Bitso
-$books = bitso->available_books();
+$books = $bitso->available_books();
+
+##sample usage for minimum amount of btc_mxn (0)
+$books->payload[0]->minimum_amount;
+##for minimum amount of eth_mxn (1)
+$books->payload[1]->minimum_amount;
 ```
 
 ### Ticker ###
@@ -32,7 +37,10 @@ $books = bitso->available_books();
 ## Parameters
 ## [book] - Specifies which book to use
 ##                  - string
-$ticker = bitso->ticker(["book"=>"btc_mxn"]);
+$ticker = $bitso->ticker(["book"=>"btc_mxn"]);
+
+##sample usage for ask price of btc_mxn
+$ticker->payload->ask;
  ```
 
 ### Order Book ###
@@ -45,7 +53,10 @@ $ticker = bitso->ticker(["book"=>"btc_mxn"]);
 ## [aggregate = True] - Group orders with the same price
 ##                - boolean
 
-$ob = bitso->order_book(["book"=>"btc_mxn","aggregate"=> "True"]);
+$ob = $bitso->order_book(["book"=>"btc_mxn","aggregate"=> "True"]);
+
+## sample usage for array of asks for btc_mxn
+$ob->payload->asks;
 ```
 
 ### Trades ###
@@ -62,8 +73,10 @@ $ob = bitso->order_book(["book"=>"btc_mxn","aggregate"=> "True"]);
 ## [limit = '25'] - Specifies number of objects to return. (Max is 100)
 ##                    - str
 
-$trades = bitso->trades(["book"=>"btc_mxn"]);
+$trades = $bitso->trades(["book"=>"btc_mxn"]);
 
+##sample usage to get array of trades 
+$trades->payload;
 
 ```
 
@@ -80,6 +93,9 @@ with your [Bitso credentials](https://bitso.com/api_info#generating-api-keys)
 ## Your account status
 $status = $bitso->account_status();
 
+##sample usage for account status array
+$status->payload;
+
 ```
 
 
@@ -90,6 +106,9 @@ $status = $bitso->account_status();
 ## Your account balances
 $balances = $bitso->account_balance();
 
+##sample usage for account balances array
+$balances->payload->balances;
+
 ```
 
 ### Fees ###
@@ -97,6 +116,9 @@ $balances = $bitso->account_balance();
 ```php
 ## Your trade fees
 $fees = $bitso->fees();
+
+##sample usage for fees array
+$fees->payload;
 
 ```
 
@@ -113,6 +135,9 @@ $fees = $bitso->fees();
 ##                 - 'desc'
 
 $ledger = $bitso->ledger(["limit"=>"15"]);
+
+##sample usage for ledger array of size determined by limit
+$ledger->payload;
 ```
 
 ### Withdrawals ###
@@ -131,6 +156,9 @@ $ledger = $bitso->ledger(["limit"=>"15"]);
 ##                 - 'desc'
 
 $withdrawals = $bitso->withdrawals(["limit"=>"20"],(wids));
+
+##sample usage for withdrawals array of size determined by limit
+$withdrawals->payload;
 ```
 
 ### Fundings ###
@@ -149,6 +177,9 @@ $withdrawals = $bitso->withdrawals(["limit"=>"20"],(wids));
 ##                 - 'desc'
 
 $fundings = $bitso->fundings(["limit"=>"20"],(fids));
+
+##sample usage for fundings array of size determined by limit
+$fundings->payload;
 ```
 
 
@@ -171,6 +202,9 @@ $fundings = $bitso->fundings(["limit"=>"20"],(fids));
 
 $user_trades = $bitso->user_trades(['book'=>'btc_mxn']);
 
+##sample usage for getting array of user trades
+$user_trades->payload;
+
 
 ```
 
@@ -189,6 +223,9 @@ $user_trades = $bitso->user_trades(['book'=>'btc_mxn']);
 ##                 - string - 'asc' or
 ##                 - 'desc'
 $open_orders = $bitso->open_orders(['book'=>'btc_mxn']);
+
+##sample usage for getting array of open orders
+$open_orders->payload;
 ```
 
 ### Lookup Order ###
@@ -199,6 +236,12 @@ $open_orders = $bitso->open_orders(['book'=>'btc_mxn']);
 ## order_ids -  A list of Bitso Order IDs.
 ##          - string
 $lookup_order = $bitso->lookup_order([oids]);
+
+##sample usage for getting status of a specific order (if one oids is passed in)
+$lookup_order->payload->status;
+
+##sample usage for getting status of a specific order (if more than one oids are passed in)
+$lookup_order->payload[i]->status;
 ```
 
 ### Cancel Order ###
