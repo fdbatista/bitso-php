@@ -30,7 +30,7 @@ Parameters must be arrays in the form of:
  ```
  Moreover, for methods such as lookup order, cancel order, there is no array of parameters, but there must be an array with order ids:
  ```php
- ['id','id''id]
+ ['id','id','id]
  ```
  See specific calls for detailed examples.
 
