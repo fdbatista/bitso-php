@@ -15,6 +15,13 @@ $bitso = new bitso();
 require('bitso.php');
 $bitso = new bitso(API_KEY, API_SECRET);
 ```
+# Note on Parameters#
+Parameters must be arrays in the form of:
+ ``` php
+ ["arg1"=>"value","arg2"=>"value"]``` 
+ For some methods such as ledger, fundings, and withdrawals, you must imput parameters like above, but must also input ids in a separate array:
+ ```php
+ ['id']``` or ```php['id','id','id']``` .
 
 # Public Calls #
 
