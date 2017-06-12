@@ -122,7 +122,7 @@ $status->payload;
 
 ```php
 ## Your account balances
-$balances = $bitso->account_balance();
+$balances = $bitso->balances();
 
 ##sample usage for account balances array
 $balances->payload->balances;
