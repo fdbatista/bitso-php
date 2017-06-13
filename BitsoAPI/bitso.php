@@ -1,5 +1,5 @@
 <?php
-namespace API;
+namespace BitsoAPI;
 
 class bitso
 {

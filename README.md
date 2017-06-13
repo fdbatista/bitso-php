@@ -3,6 +3,12 @@
 A php wrapper for the [Bitso API](https://bitso.com/api_info/) 
 
 
+# Installation #
+To install the bitso-php api wrapper:
+```
+composer install bitso/bitso-php
+```
+
 # Public API Usage #
 
 ```php
@@ -20,13 +26,17 @@ Parameters must be arrays in the form of:
  ``` php
  ["arg1"=>"value","arg2"=>"value"]
  ``` 
- For some methods such as ledger, fundings, and withdrawals, you must imput parameters like above, but must also input ids in a separate paramter:
+ For some methods such as ledger, fundings, and withdrawals, you must imput parameters like above, but must also input ids in a separate parameter:
  ```php
  ('id')
  ``` 
  or 
  ```php
  ('id','id','id')
+ ```
+ i.e.
+ ```
+ withdrawals(["arg1"=>"value","arg2"=>"value"],(id,id,id));
  ```
  Moreover, for methods such as lookup order, cancel order, there is no array of parameters, but there must be an array with order ids:
  ```php
@@ -369,4 +379,10 @@ $ripple_withdrawal = $bitso->ripple_withdrawal(['currency'=>'MXN','amount'=> '.0
 ##         - string
 
 $spei_withdrawal = $bitso->spei_withdrawal(['amount'  => '105','recipient_given_names'  => 'Andre Pierre','recipient_family_names'=>'Gignac', 'clabe'=>'CLABE','notes_ref'=>'NOTES_REF','numeric_ref'=>'NUMERIC REF']);
+```
+
+#Testing#
+To test the library, after installing, write in your API Keys in either the bitso.php file or the two test files, then go to the root folder of the repository and run:
+```
+./vendor/bin/phpunit
 ```

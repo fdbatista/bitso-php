@@ -2,7 +2,7 @@
 <phpunit colors="true">
     <testsuites>
         <testsuite name="Bitso PHP Test Suite">
-            <directory>./API/Test</directory>
+            <directory>./BitsoAPI/Test</directory>
         </testsuite>
     </testsuites>
 </phpunit>
