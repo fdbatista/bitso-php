@@ -12,13 +12,13 @@ composer install bitso/bitso-php
 # Public API Usage #
 
 ```php
-require('bitso.php');
+use BitsoAPI\bitso
 $bitso = new bitso();
 ```
 
 # Private API Usage #
 ```php
-require('bitso.php');
+use BitsoAPI\bitso
 $bitso = new bitso(API_KEY, API_SECRET);
 ```
 # Note on Parameters #
@@ -381,7 +381,7 @@ $ripple_withdrawal = $bitso->ripple_withdrawal(['currency'=>'MXN','amount'=> '.0
 $spei_withdrawal = $bitso->spei_withdrawal(['amount'  => '105','recipient_given_names'  => 'Andre Pierre','recipient_family_names'=>'Gignac', 'clabe'=>'CLABE','notes_ref'=>'NOTES_REF','numeric_ref'=>'NUMERIC REF']);
 ```
 
-#Testing#
+##Testing##
 To test the library, after installing, write in your API Keys in either the bitso.php file or the two test files, then go to the root folder of the repository and run:
 ```
 ./vendor/bin/phpunit
