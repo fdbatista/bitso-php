@@ -10,7 +10,7 @@ class bitso
   protected $url;
 	
   #constructor, default is dev url
-  public function __construct($key='', $secret='', $url="https://dev.bitso.com/api/v3"){
+  public function __construct($key='', $secret='', $url="https://bitso.com/api/v3"){
     $this->key = $key;
     $this->secret = $secret;
     $this->url = $url;
