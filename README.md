@@ -18,7 +18,7 @@ $bitso = new bitso();
 The production API is set as default, to use Dev API:
 ```
 $url = "https://dev.bitso.com/api/v3";
-$bitso = new bitso($url);
+$bitso = new bitso('','',$url);
 ```
 
 # Private API Usage #
