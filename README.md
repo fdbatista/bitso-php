@@ -15,30 +15,27 @@ composer install bitso/bitso-php
 use BitsoAPI\bitso
 $bitso = new bitso();
 ```
+The production API is set as default, to use Dev API:
+```
+$url = "https://dev.bitso.com/api/v3";
+$bitso = new bitso($url);
+```
 
 # Private API Usage #
 ```php
 use BitsoAPI\bitso
-$bitso = new bitso(API_KEY, API_SECRET);
+$bitso = new bitso(API_KEY, API_SECRET, URL);
 ```
+
+See note above on how to use Dev API
 # Note on Parameters #
 Parameters must be arrays in the form of:
  ``` php
  ["arg1"=>"value","arg2"=>"value"]
- ``` 
- For some methods such as ledger, fundings, and withdrawals, you must imput parameters like above, but must also input ids in a separate parameter:
- ```php
- ('id')
- ``` 
- or 
- ```php
- ('id','id','id')
  ```
- i.e.
- ```
- withdrawals(["arg1"=>"value","arg2"=>"value"],(id,id,id));
- ```
- Moreover, for methods such as lookup order, cancel order, there is no array of parameters, but there must be an array with order ids:
+ 
+Moreover, for methods such as lookup order, cancel order, there is no array of parameters, but there must be an array with order ids:
+
  ```php
  ['id','id','id]
  ```
@@ -183,7 +180,7 @@ $ledger->payload;
 ##                 - string - 'asc' or
 ##                 - 'desc'
 
-$withdrawals = $bitso->withdrawals(["limit"=>"20"],(wids));
+$withdrawals = $bitso->withdrawals(["limit"=>"20","wids"=>"ids"));
 
 ##sample usage for withdrawals array of size determined by limit
 $withdrawals->payload;
@@ -204,7 +201,7 @@ $withdrawals->payload;
 ##                 - string - 'asc' or
 ##                 - 'desc'
 
-$fundings = $bitso->fundings(["limit"=>"20"],(fids));
+$fundings = $bitso->fundings(["limit"=>"20","fids"->"ids"));
 
 ##sample usage for fundings array of size determined by limit
 $fundings->payload;
