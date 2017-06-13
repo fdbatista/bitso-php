@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true">
     <testsuites>
-        <testsuite name="Application Test Suite">
+        <testsuite name="Bitso PHP Test Suite">
             <directory>./API/Test</directory>
         </testsuite>
     </testsuites>
