@@ -56,7 +56,7 @@ class bitso
     $type = 'PUBLIC';
     $HTTPMethod = 'GET';
     $JSONPayload = '';
-  	$result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload);
+    $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload);
     return json_decode($result);
   }
 
@@ -69,15 +69,14 @@ class bitso
             
       Returns:
         A bitso.Ticker instance. */
-
-  	$parameters = http_build_query($params,'','&');
-  	$path = $this->url . "/ticker/?".$parameters;
+    
+    $parameters = http_build_query($params,'','&');
+    $path = $this->url . "/ticker/?".$parameters;
     $type = 'PUBLIC';
     $HTTPMethod = 'GET';
     $JSONPayload = '';
     $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload);
-    
-	  return json_decode($result);
+    return json_decode($result);
   }
 
   function order_book($params){
@@ -92,8 +91,8 @@ class bitso
       Returns:
         A bitso.OrderBook instance. */
 
-  	$parameters = http_build_query($params,'','&');
-  	$path = $this->url . "/order_book/?".$parameters;
+    $parameters = http_build_query($params,'','&');
+    $path = $this->url . "/order_book/?".$parameters;
     $type = 'PUBLIC';
     $HTTPMethod = 'GET';
     $JSONPayload = '';
@@ -120,14 +119,14 @@ class bitso
       Returns:
         A list of bitso.Trades instances. */
 
-  	$parameters = http_build_query($params,'','&');
-  	$path = $this->url . "/trades/?".$parameters;
+    $parameters = http_build_query($params,'','&');
+    $path = $this->url . "/trades/?".$parameters;
     $type = 'PUBLIC';
     $HTTPMethod = 'GET';
     $JSONPayload = '';
     $result = $this->url_request($type, $path, $HTTPMethod, $JSONPayload);
 
-	  return json_decode($result);
+    return json_decode($result);
   }
 
 
@@ -152,11 +151,11 @@ class bitso
       Returns:
         A bitso.AccountStatus instance. */
 
-  	$path = $this->url . "/account_status/";
-  	$RequestPath = "/api/v3/account_status/";
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'GET';
-  	$JSONPayload = '';
+    $path = $this->url . "/account_status/";
+    $RequestPath = "/api/v3/account_status/";
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'GET';
+    $JSONPayload = '';
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -171,13 +170,13 @@ class bitso
     */
 
     $path = $this->url . "/balance/";
-  	$RequestPath = "/api/v3/balance/";
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'GET';
-  	$JSONPayload = '';
+    $RequestPath = "/api/v3/balance/";
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'GET';
+    $JSONPayload = '';
     $type = 'PRIVATE';
 
-  	return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
+    return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
   }
 
   function fees(){
@@ -187,10 +186,10 @@ class bitso
         A list bitso.Fees instances.
     */
     $path = $this->url . "/fees/";
-  	$RequestPath = "/api/v3/fees/";
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'GET';
-  	$JSONPayload = '';
+    $RequestPath = "/api/v3/fees/";
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'GET';
+    $JSONPayload = '';
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -215,12 +214,12 @@ class bitso
       A list bitso.LedgerEntry instances.
     */
 
-  	$parameters = http_build_query($params,'','&');
-	  $path = $this->url . "/ledger/?".$parameters;
-  	$RequestPath = "/api/v3/ledger/?".$parameters;
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'GET';
-  	$JSONPayload = '';
+    $parameters = http_build_query($params,'','&');
+    $path = $this->url . "/ledger/?".$parameters;
+    $RequestPath = "/api/v3/ledger/?".$parameters;
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'GET';
+    $JSONPayload = '';
     $type = 'PRIVATE'; 
   	
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -243,14 +242,14 @@ class bitso
     Returns:
       A list bitso.Withdrawal instances.
     */
-	  $id_nums = implode('', $ids);
-  	$parameters = http_build_query($params,'','&');
-	  $path = $this->url . "/withdrawals/".$id_nums."/?".$parameters;
-  	$RequestPath = "/api/v3/withdrawals/".$id_nums."/?".$parameters;
+    $id_nums = implode('', $ids);
+    $parameters = http_build_query($params,'','&');
+    $path = $this->url . "/withdrawals/".$id_nums."/?".$parameters;
+    $RequestPath = "/api/v3/withdrawals/".$id_nums."/?".$parameters;
 
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'GET';
-  	$JSONPayload = '';
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'GET';
+    $JSONPayload = '';
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -274,13 +273,13 @@ class bitso
       A list bitso.Funding instances.
     */
 
-	  $id_nums = implode('', $ids);
-  	$parameters = http_build_query($params,'','&');
+    $id_nums = implode('', $ids);
+    $parameters = http_build_query($params,'','&');
 	  $path = $this->url . "/fundings/".$id_nums."/?".$parameters;
-  	$RequestPath = "/api/v3/fundings/".$id_nums."/?".$parameters;
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'GET';
-  	$JSONPayload = '';
+    $RequestPath = "/api/v3/fundings/".$id_nums."/?".$parameters;
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'GET';
+    $JSONPayload = '';
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -318,13 +317,13 @@ class bitso
     Returns:
       A list bitso.UserTrade instances.
     */
-  	$id_nums = implode('', $ids);
-  	$parameters = http_build_query($params,'','&');
-	  $path = $this->url . "/user_trades/".$id_nums."/?".$parameters;
-  	$RequestPath = "/api/v3/user_trades/".$id_nums."/?".$parameters;
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'GET';
-  	$JSONPayload = '';
+    $id_nums = implode('', $ids);
+    $parameters = http_build_query($params,'','&');
+    $path = $this->url . "/user_trades/".$id_nums."/?".$parameters;
+    $RequestPath = "/api/v3/user_trades/".$id_nums."/?".$parameters;
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'GET';
+    $JSONPayload = '';
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -340,12 +339,12 @@ class bitso
     Returns:
       A list of bitso.Order instances.
     */
-  	$parameters = http_build_query($params,'','&');
-  	$path = $this->url . "/open_orders/?".$parameters;
-  	$RequestPath = "/api/v3/open_orders/?".$parameters;
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'GET';
-  	$JSONPayload = '';
+    $parameters = http_build_query($params,'','&');
+    $path = $this->url . "/open_orders/?".$parameters;
+    $RequestPath = "/api/v3/open_orders/?".$parameters;
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'GET';
+    $JSONPayload = '';
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -361,13 +360,12 @@ class bitso
     Returns:
       A list of bitso.Order instances. 
     */
-  	$parameters = implode('', $ids);
- 
-  	$path = $this->url . "/orders/".$parameters;
-  	$RequestPath = "/api/v3/orders/".$parameters;
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'GET';
-  	$JSONPayload = '';
+    $parameters = implode('', $ids);
+    $path = $this->url . "/orders/".$parameters;
+    $RequestPath = "/api/v3/orders/".$parameters;
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'GET';
+    $JSONPayload = '';
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -389,11 +387,11 @@ class bitso
 		    $parameters = implode('', $params);
 		}
 
-  	$path = $this->url . "/orders/".$parameters;
-  	$RequestPath = "/api/v3/orders/".$parameters;
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'DELETE';
-  	$JSONPayload = '';
+    $path = $this->url . "/orders/".$parameters;
+    $RequestPath = "/api/v3/orders/".$parameters;
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'DELETE';
+    $JSONPayload = '';
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -418,12 +416,11 @@ class bitso
       Returns:
         A bitso.Order instance. 
     */
-
-	  $path = $this->url . "/orders/";
-  	$RequestPath = "/api/v3/orders/";
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'POST';
-  	$JSONPayload = json_encode($params);
+    $path = $this->url . "/orders/";
+    $RequestPath = "/api/v3/orders/";
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'POST';
+    $JSONPayload = json_encode($params);
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -439,12 +436,12 @@ class bitso
       Returns:
         A bitso.Funding Destination instance.
     */
-	  $parameters = http_build_query($params,'','&');
-  	$path = $this->url . "/funding_destination/?".$parameters;
-  	$RequestPath = "/api/v3/funding_destination/?".$parameters;
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'GET';
-  	$JSONPayload = '';
+    $parameters = http_build_query($params,'','&');
+    $path = $this->url . "/funding_destination/?".$parameters;
+    $RequestPath = "/api/v3/funding_destination/?".$parameters;
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'GET';
+    $JSONPayload = '';
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -462,12 +459,11 @@ class bitso
       Returns:
         ok
     */
-		$path = $this->url . "/bitcoin_withdrawal/";
-
-  	$RequestPath = "/api/v3/bitcoin_withdrawal/";
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'POST';	
-  	$JSONPayload = json_encode($params);
+    $path = $this->url . "/bitcoin_withdrawal/";
+    $RequestPath = "/api/v3/bitcoin_withdrawal/";
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'POST';	
+    $JSONPayload = json_encode($params);
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -485,12 +481,11 @@ class bitso
       Returns:
         ok
     */
-  	$path = $this->url . "/ether_withdrawal/";
-
-  	$RequestPath = "/api/v3/ether_withdrawal/";
-  	$nonce = round(microtime(true)*1000);
-  	$HTTPMethod = 'POST';
-  	$JSONPayload = json_encode($params);
+    $path = $this->url . "/ether_withdrawal/";
+    $RequestPath = "/api/v3/ether_withdrawal/";
+    $nonce = round(microtime(true)*1000);
+    $HTTPMethod = 'POST';
+    $JSONPayload = json_encode($params);
     $type = 'PRIVATE';
 
     return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -510,11 +505,11 @@ class bitso
         Returns:
           ok
       */
-		  $path = $this->url . "/ripple_withdrawal/";
-    	$RequestPath = "/api/v3/ripple_withdrawal/";
-    	$nonce = round(microtime(true)*1000);
-    	$HTTPMethod = 'POST';
-    	$JSONPayload = json_encode($params);
+      $path = $this->url . "/ripple_withdrawal/";
+      $RequestPath = "/api/v3/ripple_withdrawal/";
+      $nonce = round(microtime(true)*1000);
+      $HTTPMethod = 'POST';
+      $JSONPayload = json_encode($params);
       $type = 'PRIVATE';
 
       return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
@@ -542,12 +537,11 @@ class bitso
         Returns:
           ok      
       */
-    	$path = $this->url . "/spei_withdrawal/";
-
-    	$RequestPath = "/api/v3/spei_withdrawal/";
-    	$nonce = round(microtime(true)*1000);
-    	$HTTPMethod = 'POST';
-    	$JSONPayload = json_encode($params);
+      $path = $this->url . "/spei_withdrawal/";
+      $RequestPath = "/api/v3/spei_withdrawal/";
+      $nonce = round(microtime(true)*1000);
+      $HTTPMethod = 'POST';
+      $JSONPayload = json_encode($params);
       $type = 'PRIVATE';
 
       return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
