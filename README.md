@@ -12,7 +12,7 @@ composer install bitso/bitso-php
 # Public API Usage #
 
 ```php
-use BitsoAPI\bitso
+use BitsoAPI\bitso;
 $bitso = new bitso();
 ```
 The production API is set as default, to use Dev API:
