@@ -16,7 +16,7 @@ use BitsoAPI\bitso;
 $bitso = new bitso();
 ```
 The production API is set as default, to use Dev API:
-```
+```php
 $url = "https://dev.bitso.com/api/v3";
 $bitso = new bitso('','',$url);
 ```
