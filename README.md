@@ -23,7 +23,7 @@ $bitso = new bitso('','',$url);
 
 # Private API Usage #
 ```php
-use BitsoAPI\bitso
+use BitsoAPI\bitso;
 $bitso = new bitso(API_KEY, API_SECRET, URL);
 ```
 
