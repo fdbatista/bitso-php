@@ -4,9 +4,9 @@ A php wrapper for the [Bitso API](https://bitso.com/api_info/)
 
 
 # Installation #
-To install the bitso-php api wrapper:
+To install the bitso-php api wrapper, clone the directory and in the root of the directory run:
 ```
-composer install bitso/bitso-php
+composer install
 ```
 
 # Public API Usage #
@@ -379,7 +379,7 @@ $spei_withdrawal = $bitso->spei_withdrawal(['amount'  => '105','recipient_given_
 
 ```
 
-### Testing ###
+## Testing ##
 To test the library, after installing, write in your API Keys in either the bitso.php file or the two test files, then go to the root folder of the repository and run:
 ```
 ./vendor/bin/phpunit
