@@ -13,6 +13,7 @@ composer install
 
 ```php
 use BitsoAPI\bitso;
+include("bitso.php");
 $bitso = new bitso();
 ```
 The production API is set as default, to use Dev API:
@@ -24,6 +25,7 @@ $bitso = new bitso('','',$url);
 # Private API Usage #
 ```php
 use BitsoAPI\bitso;
+include("bitso.php");
 $bitso = new bitso(API_KEY, API_SECRET, URL);
 ```
 
@@ -384,3 +386,4 @@ To test the library, after installing, write in your API Keys in either the bits
 ```
 ./vendor/bin/phpunit
 ```
+Remember to input API Keys to test with, as the test files have empty slots for keys.
