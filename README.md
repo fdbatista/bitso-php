@@ -4,29 +4,34 @@ A php wrapper for the [Bitso API](https://bitso.com/api_info/)
 
 
 # Installation #
-To install the bitso-php api wrapper, clone the directory and in the root of the directory run:
-```
-composer install
+To install the bitso-php api wrapper, in your composer.json file:
+```json
+{
+    "require": {
+        "bitso/bitso-php": "dev-master"
+    }
+}
 ```
 
 # Public API Usage #
 
 ```php
-use BitsoAPI\bitso;
-include("bitso.php");
-$bitso = new bitso();
+require 'vendor/autoload.php'
+
+$bitso = new BitsoAPI\bitso();
 ```
 The production API is set as default, to use Dev API:
 ```php
-$url = "https://dev.bitso.com/api/v3";
-$bitso = new bitso('','',$url);
+require 'vendor/autoload.php'
+
+$bitso = new BitsoAPI\bitso('','',$url);
 ```
 
 # Private API Usage #
 ```php
-use BitsoAPI\bitso;
-include("bitso.php");
-$bitso = new bitso(API_KEY, API_SECRET, URL);
+require 'vendor/autoload.php'
+
+$bitso = new BitsoAPI\bitso(API_KEY, API_SECRET, URL);
 ```
 
 See note above on how to use Dev API
