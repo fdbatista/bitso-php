@@ -1,6 +1,6 @@
 # bitso-php #
 
-A php wrapper for the [Bitso API](https://bitso.com/api_info/) 
+A php wrapper for the [Bitso API](https://bitso.com/api_info/). 
 
 
 # Installation #
