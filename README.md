@@ -5,7 +5,7 @@ A php wrapper for the [Bitso API](https://bitso.com/api_info/).
 
 # Installation #
 To install the bitso-php api wrapper:
-`$ composer require bitso/bitso-php`
+`$ composer require bitso/bitso-php:*`
 or equivalently in your composer.json file:
 ```json
 {
