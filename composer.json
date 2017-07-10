@@ -1,6 +1,5 @@
 {
     "name": "bitso/bitso-php",
-    "version": "0.0.2",
     "description": "A PHP Wrapper for the Bitso API",
     "keywords": ["api","bitso","php"],
     "homepage": "http://github.com/bitsoex/bitso-php",
