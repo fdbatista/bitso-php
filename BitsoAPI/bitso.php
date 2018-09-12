@@ -409,11 +409,11 @@ class bitso
     Returns:
       A list of Order IDs (OIDs) for the canceled orders. Orders may not be successfully cancelled if they have been filled, have been already cancelled, or the OIDs are incorrect
     */
-		if ($ids = 'all') {
-			$parameters = 'all';
-		} else {
-		    $parameters = implode('', $params);
-		}
+    if ($ids === 'all') {
+	$parameters = 'all';
+    } else {
+	$parameters = implode('', $params);
+    }
 
     $path = $this->url . "/orders/".$parameters;
     $RequestPath = "/api/v3/orders/".$parameters;
