@@ -412,7 +412,7 @@ class bitso
     if ($ids === 'all') {
 	$parameters = 'all';
     } else {
-	$parameters = implode('', $params);
+	$parameters = implode(',', $ids);
     }
 
     $path = $this->url . "/orders/".$parameters;
