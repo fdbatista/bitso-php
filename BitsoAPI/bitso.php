@@ -388,7 +388,7 @@ class bitso
     Returns:
       A list of bitso.Order instances. 
     */
-    $parameters = implode('', $ids);
+    $parameters = implode(',', $ids);
     $path = $this->url . "/orders/".$parameters;
     $RequestPath = "/api/v3/orders/".$parameters;
     $nonce = $this->makeNonce();
