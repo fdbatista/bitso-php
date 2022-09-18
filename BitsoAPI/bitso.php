@@ -324,7 +324,7 @@ class bitso
     $JSONPayload = '';
     $type = 'PRIVATE';
 
-    return getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
+    return $this->getData($nonce,$path,$RequestPath,$HTTPMethod,$JSONPayload,$type);
   }
 
   function user_trades($params, $ids=[]){
